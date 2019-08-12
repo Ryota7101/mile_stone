@@ -14,3 +14,7 @@ bundle install in command line of project
 rename file application.css to application.scss under /app/assets/stylesheets
 The only line for bootstrap is @import "bootstrap"; at file application.scss
 start rails again by rails s in command line of project
+
+# -----------------------------------
+
+Next 300 video
