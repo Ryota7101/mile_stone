@@ -60,7 +60,7 @@
 }
 
 .jumbotron {
-  background-image: asset-url('meeting1.png');
+  background-image: asset-url('image2.jpg');
   background-size: cover;
   color: #fff;
   font-family: 'Helvetica Neue' !important;
@@ -119,4 +119,14 @@
   a.main-link:hover {
     background: none;
   }
+}
+
+.logout {
+  padding-left: 0;
+}
+
+.navbar.navbar-static-top {
+  background: #000;
+  color: #fff !important;
+  padding-bottom: 5px;
 }
