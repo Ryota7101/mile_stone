@@ -9,20 +9,12 @@ class Project < ApplicationRecord
     end
   end
   
-  def self.by_user_plan_and_tenant(tenant_id, user)
+  def self.by_user_plan_and_tenant(tenant_id)
     tenant = Tenant.find(tenant_id)
     if tenant.plan == 'premium'
-      if user.is_admin?
-        tenant.projects
-      else
-        user.projects.where(tenant_id: tenant.id)
-      end
+      tenant.projects
     else
-      if user.is_admin?
-        tenant.projects.order(:id).limit(1)
-      else
-        user.projects.where(tenant_id: tenant.id).order(:id).limit(1)
-      end
+      tenant.projects.order(:id).limit(1)
     end
   end
 end
