@@ -1,8 +1,12 @@
 Rails.application.routes.draw do
 
+  resources :user_projects
   resources :artifacts
   resources :tenants do
-    resources :projects
+    resources :projects do
+      get 'users', on: :member 
+      put 'add_user', on: :member 
+    end
   end
   
   resources :members
@@ -17,7 +21,7 @@ Rails.application.routes.draw do
   end
 
   devise_for :users, :controllers => { 
-    :registrations => "milia/registrations",
+    :registrations => "registrations",
     :confirmations => "confirmations",
     :sessions => "milia/sessions", 
     :passwords => "milia/passwords", 
