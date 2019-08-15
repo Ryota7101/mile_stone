@@ -19,6 +19,13 @@
 <br />
 <br />
 
+<h3>tasks</h3>
+<%= render 'tasks/tasklist', tasks: @project.tasks %>
+<%= link_to 'New Task', new_task_path(project_id: @project.id),
+            :class => 'btn btn-primary' %>
+<br />
+<br />
+
 <%= link_to '< Back to Organization Home', root_path, :class => 'btn btn-default'  %>
 <%= link_to t('.edit', :default => t("helpers.links.edit")),
               edit_tenant_project_path(project: @project, tenant: @project.tenant_id), 
