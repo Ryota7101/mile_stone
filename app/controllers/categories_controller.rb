@@ -7,6 +7,7 @@ class CategoriesController < ApplicationController
   
   def new
     @category = Category.new
+    @category.project_id = params[:project_id]
   end
   
   def show
@@ -42,7 +43,7 @@ class CategoriesController < ApplicationController
   private
 
     def category_params
-      params.require(:category).permit(:name)
+      params.require(:category).permit(:name, :project_id)
     end
     
     def require_admin

@@ -9,6 +9,7 @@
       <th><%= model_class.human_attribute_name(:email) %></th>
       <th><%= model_class.human_attribute_name(:limit) %></th>
       <th><%= model_class.human_attribute_name(:created_at) %></th>
+      <th><%= model_class.human_attribute_name(:category) %></th>
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
   </thead>
@@ -20,6 +21,7 @@
         <td><%= task.user.email %></td>
         <td><%= task.limit %></td>
         <td><%= task.created_at %></td>
+        <td><%= render task.categories %></td>
         <td>
           <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
                       task_path(task),
