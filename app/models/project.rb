@@ -6,6 +6,7 @@ class Project < ApplicationRecord
   has_many :user_projects
   has_many :users, through: :user_projects
   has_many :tasks, dependent: :destroy
+  has_many :categories, dependent: :destroy
   
   def free_plan_can_only_have_one_project
     if self.new_record? && (tenant.projects.count > 0) && (tenant.plan == 'free')

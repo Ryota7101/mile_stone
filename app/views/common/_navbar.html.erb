@@ -21,6 +21,19 @@
           <%= link_to "<i class='fa fa-briefcase'></i> Change Plan".html_safe, edit_plan_path,
                                                         class: 'btn btn-primary navbar-link' %>
         </li>
+        
+        <li>
+          <%= link_to "<i class='fa fa-briefcase'></i> All Task Categories".html_safe, categories_path,
+                                                        class: 'btn btn-primary navbar-link' %>
+        </li>
+        
+        <li>
+          <%= link_to "<i class='fa fa-briefcase'></i> Create task Category".html_safe, new_category_path,
+                                                        class: 'btn btn-primary navbar-link' %>
+        </li>
+        
+        
+        
         <% end %>
       </ul>
       <ul class="nav navbar-right col-md-4">

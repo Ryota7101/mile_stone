@@ -9,4 +9,8 @@
   <dd><%= @task.user.email %></dd>
   <dt><strong><%= model_class.human_attribute_name(:limit) %>:</strong></dt>
   <dd><%= @task.limit %></dd>
+  
+  <% if @task.categories.any? %>
+    <p>Categories: <%= render @task.categories %></p>
+  <% end %>
 </dl>
