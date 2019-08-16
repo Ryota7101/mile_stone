@@ -41,4 +41,8 @@ module ApplicationHelper
     return "cc_form" if tenant.payment.blank?
     ""
   end
+  
+  def logged_in?
+    !!current_user
+  end
 end

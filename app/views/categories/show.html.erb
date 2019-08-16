@@ -1,0 +1,14 @@
+<h1 align="center"><%= "Category: " + @category.name %></h1>
+
+<div align="center">
+  <% if logged_in? and current_user.is_admin? %>
+    <div class="row">
+      <span class="badge"><%= link_to "カテゴリ名を編集", edit_category_path(@category) %></span>
+    </div>
+  <% end %>
+  <%= will_paginate @category_tasks %>
+</div>
+
+<div align="center">
+  <%= will_paginate @category_tasks %>
+</div>

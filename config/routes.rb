@@ -10,6 +10,8 @@ Rails.application.routes.draw do
     end
   end
   
+  resources :categories, except: [:destroy]
+  
   resources :members
   get 'home/index'
 
