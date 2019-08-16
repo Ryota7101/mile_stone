@@ -17,10 +17,12 @@ start rails again by rails s in command line of project
 
 # -----------------------------------
 
-Next 300 video
+
 
 
 # -----------------------------------
 
 user.rb add
 has_one :member, :dependent => :destroy
+
+# ------------------------------------
