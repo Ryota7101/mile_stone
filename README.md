@@ -1,5 +1,16 @@
 # README
 
+これはポートフォリオ用にRuby on Railsで開発したプロジェクト管理アプリケーションです。
+
+Qiitaにアプリの詳細説明を記載しております。
+https://qiita.com/Ryota7101/items/ddb6a85c28c71c1f79e3
+
+![image](https://user-images.githubusercontent.com/35439050/63206924-b99ce380-c0f8-11e9-8288-ce2156f3bd05.png)
+
+![image](https://user-images.githubusercontent.com/35439050/63206960-945ca500-c0f9-11e9-9f04-0429c11e3813.png)
+
+
+
 I had the same issue and resolved it by adding 
 before_action: authenticate_tenant! in application_controller.rb. 
 Then I changed the method from before_filter to 
