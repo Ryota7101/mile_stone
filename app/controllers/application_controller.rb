@@ -3,8 +3,8 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :authenticate_tenant!
   
-     ##    milia defines a default max_tenants, invalid_tenant exception handling
-     ##    but you can override these if you wish to handle directly
+     # miliaはデフォルトのmax_tenants、invalid_tenant例外処理を定義します
+     # ただし、直接処理する場合はこれらをオーバーライドできます
   rescue_from ::Milia::Control::MaxTenantExceeded, :with => :max_tenants
   rescue_from ::Milia::Control::InvalidTenantAccess, :with => :invalid_tenant
   

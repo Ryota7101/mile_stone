@@ -1,4 +1,7 @@
 class CategoriesController < ApplicationController
+  #タスクに対してカテゴリを付与する機能
+  #カテゴリの管理画面には管理者のみがアクセスできる
+  
   before_action :require_admin, except: [:index, :show]
 
   def index

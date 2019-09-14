@@ -1,4 +1,6 @@
 class ProjectsController < ApplicationController
+  #プロジェクト管理機能 作成や削除、更新など
+  
   before_action :set_project, only: [:show, :edit, :update, :destroy, :users, :add_user]
   before_action :set_tenant, only: [:show, :edit, :update, :destroy, :new, :create, :users, :add_user]
   before_action :verify_tenant
@@ -31,7 +33,7 @@ class ProjectsController < ApplicationController
     @project.users << current_user
     respond_to do |format|
       if @project.save
-        format.html { redirect_to root_url, notice: 'Project was successfully created.' }
+        format.html { redirect_to root_url, notice: 'プロジェクトが正常に作成されました' }
       else
         format.html { render :new }
       end
@@ -43,7 +45,7 @@ class ProjectsController < ApplicationController
   def update
     respond_to do |format|
       if @project.update(project_params)
-        format.html { redirect_to root_url, notice: 'Project was successfully updated.' }
+        format.html { redirect_to root_url, notice: 'プロジェクトは正常に更新されました' }
       else
         format.html { render :edit }
       end
@@ -55,7 +57,7 @@ class ProjectsController < ApplicationController
   def destroy
     @project.destroy
     respond_to do |format|
-      format.html { redirect_to root_url, notice: 'Project was successfully destroyed.' }
+      format.html { redirect_to root_url, notice: 'プロジェクトは正常に削除されました.' }
       format.json { head :no_content }
     end
   end
@@ -71,21 +73,21 @@ class ProjectsController < ApplicationController
     respond_to do |format|
       if @project_user.save
         format.html { redirect_to users_tenant_project_url(id: @project.id, tenant_id: @project.tenant_id),
-          notice: "User was successfully added to project" }
+          notice: "ユーザーがプロジェクトに正常に追加されました" }
       else
         format.html { redirect_to users_tenant_project_url(id: @project.id, tenant_id: @project.tenant_id),
-          error: "User was not added to project" }
+          error: "ユーザーはプロジェクトに追加されませんでした" }
       end
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+    # コールバックを使用して、アクション間で共通のセットアップまたは制約を共有します。
     def set_project
       @project = Project.find(params[:id])
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
+    # 恐ろしいインターネットからのパラメーターを決して信用せず、ホワイトリストのみを許可します。
     def project_params
       params.require(:project).permit(:title, :details, :expected_completion_date, :tenant_id)
     end
@@ -97,7 +99,7 @@ class ProjectsController < ApplicationController
     def verify_tenant
       unless params[:tenant_id] == Tenant.current_tenant_id.to_s
         redirect_to :root, 
-              flash: { error: 'You are not authorized to access any organization other than your own'}
+              flash: { error: '自分以外の組織にアクセスする権限がありません'}
       end
     end
 end

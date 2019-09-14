@@ -1,4 +1,6 @@
 class TenantsController < ApplicationController
+  #テナント機能
+  
   before_action :set_tenant
   def edit
   end

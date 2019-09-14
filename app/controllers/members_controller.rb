@@ -1,4 +1,5 @@
 class MembersController < ApplicationController
+#プロジェクト内にメンバーを招待する機能
 
   # uncomment to ensure common layout for forms
   # layout  "sign", :only => [:new, :edit, :create]
@@ -13,11 +14,12 @@ class MembersController < ApplicationController
 
     # ok to create user, member
     if @user.save_and_invite_member() && @user.create_member( member_params )
-      flash[:notice] = "New member added and invitation email sent to #{@user.email}."
+      flash[:notice] = "新しいメンバーが追加され、招待メールが#{@user.email}に送信されました"
       redirect_to root_path
     else
-      flash[:error] = "errors occurred!"
-      @member = Member.new( member_params ) # only used if need to revisit form
+      flash[:error] = "エラーが発生しました！"
+      # フォームを再訪する必要がある場合にのみ使用
+      @member = Member.new( member_params ) 
       render :new
     end
 

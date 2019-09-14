@@ -1,4 +1,6 @@
 class TasksController < ApplicationController
+  #プロジェクト内で管理するタスク機能
+  
   before_action :set_task, only: [:show, :edit, :update, :destroy]
   
   def new
@@ -10,7 +12,7 @@ class TasksController < ApplicationController
     @task = Task.new(task_params)
     @task.user = current_user
     if @task.save
-      flash[:success] = "成功しました"
+      flash[:success] = "タスクの作成に成功しました"
       redirect_to task_path(@task)
     else
       render 'new'
@@ -27,15 +29,12 @@ class TasksController < ApplicationController
   end
   
   def edit
-    #@article = Article.find(params[:id])
   end
   
   def update
-    #@article = Article.find(params[:id])
   end
   
   def destroy
-    #@article = Article.find(params[:id])
   end
   
   private

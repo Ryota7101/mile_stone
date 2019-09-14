@@ -1,28 +1,20 @@
 class RegistrationsController < Milia::RegistrationsController
+  #ユーザー登録機能
 
   skip_before_action :authenticate_tenant!, :only => [:new, :create, :cancel]
 
-  # ------------------------------------------------------------------------------
-  # ------------------------------------------------------------------------------
-  # TODO: options if non-standard path for new signups view
-  # ------------------------------------------------------------------------------
-  # create -- intercept the POST create action upon new sign-up
-  # new tenant account is vetted, then created, then proceed with devise create user
-  # CALLBACK: Tenant.create_new_tenant  -- prior to completing user account
-  # CALLBACK: Tenant.tenant_signup      -- after completing user account
-  # ------------------------------------------------------------------------------
   def create
-      # have a working copy of the params in case Tenant callbacks
-      # make any changes
+      # テナントコールバックが変更を加える場合に備えて、
+      # パラメーターの作業用コピーを用意します
     tenant_params = sign_up_params_tenant
     user_params   = sign_up_params_user.merge({ is_admin: true })
     coupon_params = sign_up_params_coupon
 
     sign_out_session!
-       # next two lines prep signup view parameters
+       # 次の2行は、サインアップビューのパラメーターを準備します
     prep_signup_view( tenant_params, user_params, coupon_params )
 
-       # validate recaptcha first unless not enabled
+       # 有効になっていない限り、最初にrecaptchaを検証します
     if !::Milia.use_recaptcha  ||  verify_recaptcha
 
       Tenant.transaction  do 
@@ -32,7 +24,7 @@ class RegistrationsController < Milia::RegistrationsController
             @payment = Payment.new({ email: user_params["email"],
               token: params[:payment]["token"],
               tenant: @tenant })
-            flash[:error] = "Please check registration errors" unless @payment.valid?
+            flash[:error] = "登録エラーを確認してください" unless @payment.valid?
             
             begin
               @payment.process_payment
@@ -40,40 +32,40 @@ class RegistrationsController < Milia::RegistrationsController
             rescue Exception => e 
               flash[:error] = e.message
               @tenant.destroy
-              log_action("Payment failed")
+              log_action("支払いに失敗しました")
               render :new and return
             end
           end
         else
           resource.valid?
-          log_action( "tenant create failed", @tenant )
+          log_action( "テナント作成に失敗しました", @tenant )
           render :new
         end # if .. then .. else no tenant errors
         
-        if flash[:error].blank? || flash[:error].empty? #payment successful
-          initiate_tenant( @tenant )    # first time stuff for new tenant
+        if flash[:error].blank? || flash[:error].empty? #支払い完了
+          initiate_tenant( @tenant )    # 新しいテナント向けの初めてのもの
 
-          devise_create( user_params )   # devise resource(user) creation; sets resource
+          devise_create( user_params )   # リソース（ユーザー）作成を考案し、リソースを設定します
 
           if resource.errors.empty?   #  SUCCESS!
 
             log_action( "signup user/tenant success", resource )
-              # do any needed tenant initial setup
+              # 必要なテナントの初期設定を行います
             Tenant.tenant_signup(resource, @tenant, coupon_params)
 
-          else  # user creation failed; force tenant rollback
+          else  # ユーザーの作成に失敗しました。 テナントのロールバックを強制する
             log_action( "signup user create failed", resource )
-            raise ActiveRecord::Rollback   # force the tenant transaction to be rolled back  
+            raise ActiveRecord::Rollback   # テナントトランザクションを強制的にロールバックする
           end  # if..then..else for valid user creation
         else
           resource.valid?
           log_action("Payment processing failed", @tenant )
           render :new and return
         end # if.. then .. else no tenant errors
-      end  #  wrap tenant/user creation in a transaction
+      end  #  トランザクションでテナント/ユーザー作成をラップする
     else
       flash[:error] = "Recaptcha codes didn't match; please try again"
-         # all validation errors are passed when the sign_up form is re-rendered
+         # sign_upフォームが再レンダリングされると、すべての検証エラーが渡されます
       resource.valid?
       @tenant.valid?
       log_action( "recaptcha failed", resource )

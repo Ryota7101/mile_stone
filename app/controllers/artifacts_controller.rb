@@ -1,4 +1,6 @@
 class ArtifactsController < ApplicationController
+  #ファイルやテキストをプロジェクト内でアップして共有する機能
+  
   before_action :set_artifact, only: [:show, :edit, :update, :destroy]
 
   # GET /artifacts
